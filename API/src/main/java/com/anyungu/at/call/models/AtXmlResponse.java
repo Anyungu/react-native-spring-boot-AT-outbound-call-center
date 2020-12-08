@@ -13,6 +13,33 @@ public class AtXmlResponse {
     protected String phoneNumbers;
 
     @XmlAttribute
-    protected String gender;
+    protected String record;
+
+    @XmlAttribute
+    protected String maxDuration;
+
+    public String getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(String phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    public String getRecord() {
+        return record;
+    }
+
+    public void setRecord(String record) {
+        this.record = record;
+    }
+
+    public String getMaxDuration() {
+        return maxDuration;
+    }
+
+    public void setMaxDuration(String maxDuration) {
+        this.maxDuration = maxDuration;
+    }
 
 }

@@ -22,8 +22,18 @@ public class AtHandleRequest {
 
     private String amount;
 
+    private String clientDialedNumber;
+
     public String getIsActive() {
         return isActive;
+    }
+
+    public String getClientDialedNumber() {
+        return clientDialedNumber;
+    }
+
+    public void setClientDialedNumber(String clientDialedNumber) {
+        this.clientDialedNumber = clientDialedNumber;
     }
 
     public void setIsActive(String isActive) {

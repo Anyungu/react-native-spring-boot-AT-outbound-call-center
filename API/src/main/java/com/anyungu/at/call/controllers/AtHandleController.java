@@ -1,40 +1,30 @@
 package com.anyungu.at.call.controllers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.anyungu.at.call.models.AtHandleRequest;
+import com.anyungu.at.call.models.AtXmlResponse;
+import com.anyungu.at.call.services.AtCallerService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class AtHandleController {
 
+    @Autowired
+    private AtCallerService atCallerService;
+
     @PostMapping(value = "/at/handle", produces = MediaType.APPLICATION_XML_VALUE)
-    public void requestFromAt(HttpServletRequest request) {
+    public AtXmlResponse requestFromAt(@Valid @RequestBody AtHandleRequest request) {
 
-        BufferedReader br;
-        try {
-            br = request.getReader();
+        AtXmlResponse passCallRequestToResponseService = atCallerService.PassCallRequestToResponseService(request);
 
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-            System.out.println(sb.toString());
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        return passCallRequestToResponseService;
 
     }
 

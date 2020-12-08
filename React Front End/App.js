@@ -9,8 +9,7 @@ import {
   TextInput,
   Text,
   Dimensions,
-  TouchableOpacity,
-  ActivityIndicator
+  TouchableOpacity
 } from 'react-native';
 
 import axios from 'axios';
@@ -26,7 +25,7 @@ class App extends Component {
     super();
     this.onCallClick = this.onCallClick.bind(this);
     this.onHangUpClick = this.onHangUpClick.bind(this);
-    // this.client = new Africastalking.Client("token")
+
   }
 
 
@@ -34,26 +33,29 @@ class App extends Component {
     let config = {
       headers: {
         'Content-Type': 'application/json',
-        'apiKey': '65035205e0dcdca99d8f812a7138939816c13f60deb0ced978fe98c3e6b21949'
+        'apiKey': 'your API Key'
       }
-
     };
 
     payload = {
-      'phoneNumber': '+254711082136',
+      'phoneNumber': 'Your AT issued phone number',
       'clientName': 'yourBrowserClientUniqueIdentifier',
       'username': 'decoded'
     }
 
     let url = `https://webrtc.africastalking.com/capability-token/request`
 
-    axios.put(url, payload, config)
+    axios.post(url, payload, config)
       .then(response => {
         console.log(response.data);
+        this.setState({
+          token: response.data.token,
+          client: new Africastalking.Client(token)
+        })
 
       })
       .catch(error => {
-
+        // display an error message
         console.log(error)
       })
   }
@@ -61,6 +63,8 @@ class App extends Component {
   state = {
     number: '',
     onCall: false,
+    token: '',
+    client: ''
 
   }
 
@@ -69,7 +73,7 @@ class App extends Component {
     if (this.state.onCall) {
       return (
         <TouchableOpacity
-          onPress={this.onCallClick}
+          onPress={this.onHangUpClick}
 
         >
 
@@ -84,7 +88,7 @@ class App extends Component {
     } else {
       return (
         <TouchableOpacity
-          onPress={this.onHangUpClick}
+          onPress={this.onCallClick}
         >
 
           <Feather
@@ -99,14 +103,18 @@ class App extends Component {
   }
 
   onCallClick() {
-    this.client.call();
+    const {
+      client,
+      number
+    } = this.state.client;
+    client.call(number)
     this.setState({
       onCall: true
     })
   }
 
   onHangUpClick() {
-    this.client.hangup();
+    client.hangup()
     this.setState({
       onCall: false
     })
