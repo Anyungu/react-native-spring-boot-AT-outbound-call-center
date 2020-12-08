@@ -106,11 +106,17 @@ class App extends Component {
     const {
       client,
       number
-    } = this.state.client;
-    client.call(number)
-    this.setState({
-      onCall: true
-    })
+    } = this.state;
+
+    if (client) {
+
+      client.call(number)
+      this.setState({
+        onCall: true
+      })
+
+    }
+
   }
 
   onHangUpClick() {
